@@ -1,2 +1,5 @@
-<p>{{@model}}</p>
-{{outlet}}
+<h1>Profile de certification de {{@model.candidateFirstName}} {{@model.candidateLastName}}</h1>
+<p>UserId du candidat: {{@model.candidateId}}</p>
+<p>CertificationCourseId du candidat: {{@model.certificationCourseId}}</p>
+
+<TargetProfiles::Details @targetProfile={{@model}} />

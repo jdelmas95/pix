@@ -26,7 +26,11 @@
               <td>{{tube.practicalTitle}}</td>
               {{#each tube.skills as |skill|}}
                 <td class="table__column--center skill-column">
-                  {{#if skill}}
+                  {{#if skill.wasTestedInCertif}}
+                    <PixTooltip @text={{concat skill.id ' ' skill.name}} @position='bottom'>
+                      <FaIcon @icon="check-double" class="skill-column--tested-in-certif" aria-label={{skill.name}} />
+                    </PixTooltip>
+                  {{else if skill}}
                     <PixTooltip @text={{concat skill.id ' ' skill.name}} @position='bottom'>
                       <FaIcon @icon="check" class="skill-column--check" aria-label={{skill.name}} />
                     </PixTooltip>
