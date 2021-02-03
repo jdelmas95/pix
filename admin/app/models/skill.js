@@ -4,4 +4,5 @@ export default class Skill extends Model {
   @attr('string') name;
   @attr('string') tubeId;
   @attr('number') difficulty;
+  @attr('boolean') wasTestedInCertif;
 }
