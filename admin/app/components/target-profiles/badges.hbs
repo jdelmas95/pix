@@ -1,6 +1,11 @@
 <section class="page-section mb_10">
   <header class="page-section__header">
     <h2 class="page-section__title">Clés de lecture</h2>
+    <div class="page-actions">
+      <LinkTo @route="authenticated.target-profiles.target-profile.badges.new" class="btn btn-outline-default btn-thin" aria-label="Nouvelle clé de lecture">
+        <FaIcon @icon="plus"></FaIcon>&nbsp;Nouvelle clé de lecture
+      </LinkTo>
+    </div>
   </header>
 
   <TargetProfiles::BadgeList

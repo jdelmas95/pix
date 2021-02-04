@@ -25,4 +25,12 @@ module('Acceptance | authenticated/targets-profile/target-profile/badges', funct
 
     assert.contains('My badge');
   });
+
+  test('should be able to add a new badge', async function(assert) {
+    await visit(`/target-profiles/${targetProfile.id}/badges`);
+
+    assert.contains('Nouvelle clé de lecture');
+    await click('a[aria-label=\'Nouvelle clé de lecture\']');
+    assert.contains('Enregistrer');
+  });
 });
