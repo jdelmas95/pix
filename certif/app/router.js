@@ -22,6 +22,7 @@ Router.map(function() {
   this.route('authenticated', { path: '/' }, function() {
     this.route('index', { path: '/' });
     this.route('sessions', function() {
+      this.route('index', { path: '/' });
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:session_id/modification' });
