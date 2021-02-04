@@ -14,10 +14,10 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/target-profiles/list');
+      await visit('/profils-cibles/list');
 
       // then
-      assert.equal(currentURL(), '/login');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 
@@ -29,10 +29,10 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/target-profiles/list');
+      await visit('/profils-cibles/list');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/list');
+      assert.equal(currentURL(), '/profils-cibles/list');
     });
 
     test('it should list target profiles', async function(assert) {
@@ -40,7 +40,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
       server.createList('target-profile', 12);
 
       // when
-      await visit('/target-profiles/list');
+      await visit('/profils-cibles/list');
 
       // then
       assert.dom('[aria-label="Profil cible"]').exists({ count: 12 });
@@ -54,7 +54,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
       test('it should display the current filter when target profiles are filtered by name', async function(assert) {
         // when
-        await visit('/target-profiles/list?name=sav');
+        await visit('/profils-cibles/list?name=sav');
 
         // then
         assert.dom('input#name').hasValue('sav');
@@ -62,7 +62,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
       test('it should display the current filter when target profiles are filtered by id', async function(assert) {
         // when
-        await visit('/target-profiles/list?id=123');
+        await visit('/profils-cibles/list?id=123');
 
         // then
         assert.dom('input#id').hasValue('123');
@@ -72,13 +72,13 @@ module('Acceptance | Target Profiles List', function(hooks) {
     test('it should redirect to target profile details on click', async function(assert) {
       // given
       server.create('target-profile', { id: 1 });
-      await visit('/target-profiles/list');
+      await visit('/profils-cibles/list');
 
       // when
       await click('[aria-label="Profil cible"]');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/1');
+      assert.equal(currentURL(), '/profils-cibles/1');
     });
   });
 });

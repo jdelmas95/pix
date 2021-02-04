@@ -16,7 +16,7 @@ module('Acceptance | Session List', function(hooks) {
       await visit('/sessions/list');
 
       // then
-      assert.equal(currentURL(), '/login');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 

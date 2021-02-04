@@ -26,7 +26,7 @@ module('Acceptance | authenticated/targets-profile/target-profile/organizations'
     });
 
     test('should list organizations', async function(assert) {
-      await visit(`/target-profiles/${targetProfile.id}/organizations`);
+      await visit(`/profils-cibles/${targetProfile.id}/organisations`);
 
       assert.contains('My organization');
       assert.contains('My other organization');
@@ -34,7 +34,7 @@ module('Acceptance | authenticated/targets-profile/target-profile/organizations'
   });
 
   test('should be able to add new organization to the target profile', async function(assert) {
-    await visit(`/target-profiles/${targetProfile.id}/organizations`);
+    await visit(`/profils-cibles/${targetProfile.id}/organisations`);
 
     await fillIn('[aria-label="ID de ou des organisation(s)"]', '42');
     await click('[aria-label="Rattacher une ou plusieurs organisation(s)"] button');

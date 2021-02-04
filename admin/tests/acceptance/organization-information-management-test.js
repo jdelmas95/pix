@@ -17,7 +17,7 @@ module('Acceptance | organization information management', function(hooks) {
     test('should be able to edit organization information', async function(assert) {
       // given
       const organization = this.server.create('organization', { name: 'oldOrganizationName' });
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organisations/${organization.id}`);
       await click('button[aria-label="Editer"]');
 
       // when

@@ -14,19 +14,19 @@ module('Acceptance | tools page', function(hooks) {
 
   module('Access', function() {
 
-    test('Tools page should be accessible from /tools', async function(assert) {
+    test('Tools page should be accessible from /outils', async function(assert) {
       // when
-      await visit('/tools');
+      await visit('/outils');
 
       // then
-      assert.equal(currentURL(), '/tools');
+      assert.equal(currentURL(), '/outils');
     });
   });
 
   module('Rendering', function(hooks) {
 
     hooks.beforeEach(async function() {
-      await visit('/tools');
+      await visit('/outils');
     });
 
     test('Should content "Learning content" section', async function(assert) {

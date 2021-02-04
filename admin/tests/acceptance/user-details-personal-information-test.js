@@ -24,19 +24,19 @@ module('Acceptance | User details personal information', function(hooks) {
     await createAuthenticateSession({ userId: user.id });
   });
 
-  test('visiting /users/:id', async function(assert) {
+  test('visiting /utilisateurs/:id', async function(assert) {
     // when
-    await visit(`/users/${user.id}`);
+    await visit(`/utilisateurs/${user.id}`);
 
     // then
-    assert.equal(currentURL(), `/users/${user.id}`);
+    assert.equal(currentURL(), `/utilisateurs/${user.id}`);
   });
 
   module('when administrator click to edit users details', function() {
 
     test('should update user firstName, lastName and email', async function(assert) {
       // given
-      await visit(`/users/${user.id}`);
+      await visit(`/utilisateurs/${user.id}`);
       await click('button[aria-label="Modifier"]');
 
       // when
@@ -57,7 +57,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should anonymize the user', async function(assert) {
       // given
-      await visit(`/users/${user.id}`);
+      await visit(`/utilisateurs/${user.id}`);
       await click('button[aria-label="Anonymiser"]');
 
       // when
@@ -74,7 +74,7 @@ module('Acceptance | User details personal information', function(hooks) {
 
     test('should not display dissociate button after', async function(assert) {
       // given
-      await visit(`/users/${user.id}`);
+      await visit(`/utilisateurs/${user.id}`);
 
       // when
       await click('button[data-test-dissociate]');

@@ -21,7 +21,7 @@ module('Acceptance | Certification-center Form', function(hooks) {
     const externalId = 'externalId';
 
     // when
-    await visit('/certification-centers/new');
+    await visit('/centres-de-certification/creation');
 
     await fillIn('#certificationCenterName', name);
     await selectChoose('#certificationCenterTypeSelector', type.label);
@@ -29,7 +29,7 @@ module('Acceptance | Certification-center Form', function(hooks) {
     await click('button[type=submit]');
 
     // then
-    assert.equal(currentURL(), '/certification-centers/list');
+    assert.equal(currentURL(), '/centres-de-certification/list');
     assert.contains(name);
     assert.contains(type.value);
     assert.contains(externalId);

@@ -17,10 +17,10 @@ module('Acceptance | Target Profile Details', function(hooks) {
       server.create('target-profile', { id: 1 });
 
       // when
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
 
       // then
-      assert.equal(currentURL(), '/login');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 
@@ -35,10 +35,10 @@ module('Acceptance | Target Profile Details', function(hooks) {
       server.create('target-profile', { id: 1 });
 
       // when
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/1');
+      assert.equal(currentURL(), '/profils-cibles/1');
     });
 
     test('it should display target profile details', async function(assert) {
@@ -46,7 +46,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
 
       // when
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
 
       // then
       assert.contains('Profil Cible Fantastix');
@@ -73,7 +73,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       });
 
       // when
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
 
       // then
       assert.contains('Competence 1');
@@ -85,13 +85,13 @@ module('Acceptance | Target Profile Details', function(hooks) {
       // given
       server.create('organization', { id: 456 });
       server.create('target-profile', { id: 1, ownerOrganizationId: 456 });
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
 
       // when
-      await click('a[href="/organizations/456"]');
+      await click('a[href="/organisations/456"]');
 
       // then
-      assert.equal(currentURL(), '/organizations/456/members');
+      assert.equal(currentURL(), '/organisations/456/membres');
     });
 
     test('it should display target profile organizations', async function(assert) {
@@ -100,7 +100,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       server.create('target-profile', { id: 1, name: 'Profil Cible' });
 
       // when
-      await visit('/target-profiles/1/organizations');
+      await visit('/profils-cibles/1/organisations');
 
       // then
       assert.dom('[aria-label="Organisation"]').containsText('Fantastix');
@@ -113,7 +113,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
 
       // when
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
       await click('button[type=button]');
 
       // then
@@ -127,7 +127,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
 
       // when
-      await visit('/target-profiles/1');
+      await visit('/profils-cibles/1');
       await click('button[type=button]');
       await fillIn('#targetProfileName', 'Profil Cible Fantastix Edited');
       await click('button[type=submit]');

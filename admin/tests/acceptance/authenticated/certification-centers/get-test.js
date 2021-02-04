@@ -1,5 +1,4 @@
 import moment from 'moment';
-
 import { module, test } from 'qunit';
 import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
@@ -40,17 +39,17 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     });
   });
 
-  test('should access Certification center page by URL /certification-centers/:id', async function(assert) {
+  test('should access Certification center page by URL /centres-de-certification/:id', async function(assert) {
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    await visit(`/centres-de-certification/${certificationCenter.id}`);
 
     // then
-    assert.equal(currentURL(), '/certification-centers/1');
+    assert.equal(currentURL(), '/centres-de-certification/1');
   });
 
   test('should display Certification center detail', async function(assert) {
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    await visit(`/centres-de-certification/${certificationCenter.id}`);
 
     // then
     assert.contains(certificationCenter.name);
@@ -63,7 +62,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
-    await visit(`/certification-centers/${certificationCenter.id}`);
+    await visit(`/centres-de-certification/${certificationCenter.id}`);
 
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });

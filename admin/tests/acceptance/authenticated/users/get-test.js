@@ -17,20 +17,20 @@ module('Acceptance | authenticated/users/get', function(hooks) {
   });
 
   test('User detail page can be accessed by URL /users/:id', async function(assert) {
-    await visit(`/users/${currentUser.id}`);
-    assert.equal(currentURL(), `/users/${currentUser.id}`);
+    await visit(`/utilisateurs/${currentUser.id}`);
+    assert.equal(currentURL(), `/utilisateurs/${currentUser.id}`);
   });
 
   test('User detail page can be accessed from user list page', async function(assert) {
-    await visit('/users');
+    await visit('/utilisateurs');
     await click('tbody > tr:nth-child(1) > td:nth-child(1) > a');
-    assert.equal(currentURL(), `/users/${currentUser.id}`);
+    assert.equal(currentURL(), `/utilisateurs/${currentUser.id}`);
   });
 
   test('Should redirect to list users page when click page title', async function(assert) {
-    await visit(`/users/${currentUser.id}`);
-    assert.equal(currentURL(), `/users/${currentUser.id}`);
+    await visit(`/utilisateurs/${currentUser.id}`);
+    assert.equal(currentURL(), `/utilisateurs/${currentUser.id}`);
     await click('#link-to-users-page');
-    assert.equal(currentURL(), '/users/list');
+    assert.equal(currentURL(), '/utilisateurs/list');
   });
 });

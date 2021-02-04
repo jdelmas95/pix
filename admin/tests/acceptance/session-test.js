@@ -18,7 +18,7 @@ module('Acceptance | Session pages', function(hooks) {
       await visit('/sessions/session');
 
       // then
-      assert.equal(currentURL(), '/login');
+      assert.equal(currentURL(), '/connexion');
     });
   });
 

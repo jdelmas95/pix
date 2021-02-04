@@ -18,10 +18,10 @@ module('Acceptance | organization memberships management', function(hooks) {
 
   test('should redirect to organization members page', async function(assert) {
     // when
-    await visit(`/organizations/${organization.id}`);
+    await visit(`/organisations/${organization.id}`);
 
     // then
-    assert.equal(currentURL(), `/organizations/${organization.id}/members`);
+    assert.equal(currentURL(), `/organisations/${organization.id}/membres`);
   });
 
   module('listing members', function(hooks) {
@@ -31,7 +31,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('it should display the current filter when memberships are filtered by firstName', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?firstName=sav`);
+      await visit(`/organisations/${organization.id}/membres?firstName=sav`);
 
       // then
       assert.dom('#firstName').hasValue('sav');
@@ -39,7 +39,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('it should display the current filter when organizations are filtered by lastName', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?lastName=tro`);
+      await visit(`/organisations/${organization.id}/membres?lastName=tro`);
 
       // then
       assert.dom('#lastName').hasValue('tro');
@@ -47,7 +47,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('it should display the current filter when organizations are filtered by email', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?email=fri`);
+      await visit(`/organisations/${organization.id}/membres?email=fri`);
 
       // then
       assert.dom('#email').hasValue('fri');
@@ -55,7 +55,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('it should display the current filter when organizations are filtered by role', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}/members?organizationRole=ADMIN`);
+      await visit(`/organisations/${organization.id}/membres?organizationRole=ADMIN`);
 
       // then
       assert.dom('#organizationRole').hasValue('ADMIN');
@@ -69,7 +69,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
 
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organisations/${organization.id}`);
       await fillIn('#userEmailToAdd', 'user@example.com');
       await click('[aria-label="Ajouter un membre"] button');
 
@@ -86,7 +86,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organisations/${organization.id}`);
       await fillIn('#userEmailToAdd', 'denise@example.com');
       await click('[aria-label="Ajouter un membre"] button');
 
@@ -102,7 +102,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       this.server.create('membership', { user, organization });
 
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organisations/${organization.id}`);
       await fillIn('#userEmailToAdd', 'unexisting@example.com');
       await click('[aria-label="Ajouter un membre"] button');
 
@@ -117,7 +117,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     test('should create an organization-invitation', async function(assert) {
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organisations/${organization.id}`);
       await fillIn('#userEmailToInvite', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
@@ -133,7 +133,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       this.server.post('/organizations/:id/invitations', () => new Response(500, {}, { errors: [{ status: '500' }] }));
 
       // when
-      await visit(`/organizations/${organization.id}`);
+      await visit(`/organisations/${organization.id}`);
       await fillIn('#userEmailToInvite', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
@@ -154,7 +154,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
 
     test('should update member\'s role', async function(assert) {
-      await visit(`/organizations/${organization.id}/members`);
+      await visit(`/organisations/${organization.id}/membres`);
       await click('button[aria-label="Modifier le rôle"]');
 
       await selectChoose('.editable-cell', 'Membre');
@@ -174,7 +174,7 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
 
     test('should deactivate a member', async function(assert) {
-      await visit(`/organizations/${organization.id}/members`);
+      await visit(`/organisations/${organization.id}/membres`);
       await click('button[aria-label="Désactiver"]');
 
       await click('.modal-footer > button.btn-primary');
