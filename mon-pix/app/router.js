@@ -61,6 +61,7 @@ Router.map(function() {
   });
   this.route('shared-certification', { path: '/partage-certificat/:id' });
   this.route('user-certifications', { path: '/mes-certifications' }, function() {
+    this.route('index', { path: '/' });
     this.route('get', { path: '/:id' });
   });
   this.route('fill-in-certificate-verification-code', { path: '/verification-certificat' });
