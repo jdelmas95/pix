@@ -89,6 +89,7 @@ Router.map(function() {
   });
 
   this.route('competences', { path: '/competences/:competence_id' }, function() {
+    this.route('index', { path: '/' });
     this.route('details');
     this.route('results', { path: '/resultats/:assessment_id' });
     this.route('resume', { path: '/evaluer' });
