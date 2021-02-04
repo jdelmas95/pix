@@ -38,6 +38,7 @@ Router.map(function() {
   this.route('user-tests', { path: '/mes-parcours' });
 
   this.route('assessments', { path: '/assessments/:assessment_id' }, function() {
+    this.route('index', { path: '/' });
     this.route('resume');
     this.route('challenge', { path: '/challenges/:challenge_id' });
     this.route('results');
