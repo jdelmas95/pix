@@ -17,10 +17,6 @@ Router.map(function() {
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
 
-  // public routes
-  this.route('index');
-  this.route('about');
-
   this.route('authenticated', { path: '/' }, function() {
     this.route('organizations', { path: '/organisations' }, function() {
       this.route('list');
