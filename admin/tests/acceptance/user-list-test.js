@@ -13,7 +13,7 @@ module('Acceptance | User List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/utilisateurs/list');
+      await visit('/utilisateurs/liste');
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -28,10 +28,10 @@ module('Acceptance | User List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/utilisateurs/list');
+      await visit('/utilisateurs/liste');
 
       // then
-      assert.equal(currentURL(), '/utilisateurs/list');
+      assert.equal(currentURL(), '/utilisateurs/liste');
     });
 
     test('it should list the users', async function(assert) {
@@ -39,7 +39,7 @@ module('Acceptance | User List', function(hooks) {
       server.createList('user', 12);
 
       // when
-      await visit('/utilisateurs/list');
+      await visit('/utilisateurs/liste');
 
       // then
       assert.dom('.user-list .table-admin tbody tr').exists({ count: 12 });
@@ -50,7 +50,7 @@ module('Acceptance | User List', function(hooks) {
       server.createList('user', 12);
 
       // when
-      await visit('/utilisateurs/list?email=sav');
+      await visit('/utilisateurs/liste?email=sav');
 
       // then
       assert.dom('#email').hasValue('sav');

@@ -14,7 +14,7 @@ module('Acceptance | Organization List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/organisations/list');
+      await visit('/organisations/liste');
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -29,10 +29,10 @@ module('Acceptance | Organization List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/organisations/list');
+      await visit('/organisations/liste');
 
       // then
-      assert.equal(currentURL(), '/organisations/list');
+      assert.equal(currentURL(), '/organisations/liste');
     });
 
     test('it should list the organizations', async function(assert) {
@@ -40,7 +40,7 @@ module('Acceptance | Organization List', function(hooks) {
       server.createList('organization', 12);
 
       // when
-      await visit('/organisations/list');
+      await visit('/organisations/liste');
 
       // then
       assert.dom('.organization-list .table-admin tbody tr').exists({ count: 12 });
@@ -54,7 +54,7 @@ module('Acceptance | Organization List', function(hooks) {
 
       test('it should display the current filter when organizations are filtered by name', async function(assert) {
         // when
-        await visit('/organisations/list?name=sav');
+        await visit('/organisations/liste?name=sav');
 
         // then
         assert.dom('#name').hasValue('sav');
@@ -62,7 +62,7 @@ module('Acceptance | Organization List', function(hooks) {
 
       test('it should display the current filter when organizations are filtered by type', async function(assert) {
         // when
-        await visit('/organisations/list?type=SCO');
+        await visit('/organisations/liste?type=SCO');
 
         // then
         assert.dom('#type').hasValue('SCO');
@@ -70,7 +70,7 @@ module('Acceptance | Organization List', function(hooks) {
 
       test('it should display the current filter when organizations are filtered by externalId', async function(assert) {
         // when
-        await visit('/organisations/list?externalId=1234567A');
+        await visit('/organisations/liste?externalId=1234567A');
 
         // then
         assert.dom('#externalId').hasValue('1234567A');
@@ -80,7 +80,7 @@ module('Acceptance | Organization List', function(hooks) {
     test('it should redirect to organization details on click', async function(assert) {
       // given
       server.create('organization', { id: 1 });
-      await visit('/organisations/list');
+      await visit('/organisations/liste');
 
       // when
       await click('.organization-list .table-admin tbody tr:first-child');

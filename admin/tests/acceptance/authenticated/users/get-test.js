@@ -31,6 +31,6 @@ module('Acceptance | authenticated/users/get', function(hooks) {
     await visit(`/utilisateurs/${currentUser.id}`);
     assert.equal(currentURL(), `/utilisateurs/${currentUser.id}`);
     await click('#link-to-users-page');
-    assert.equal(currentURL(), '/utilisateurs/list');
+    assert.equal(currentURL(), '/utilisateurs/liste');
   });
 });

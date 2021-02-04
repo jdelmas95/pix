@@ -14,7 +14,7 @@ module('Acceptance | Certification-centers List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/centres-de-certification/list');
+      await visit('/centres-de-certification/liste');
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -29,10 +29,10 @@ module('Acceptance | Certification-centers List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/centres-de-certification/list');
+      await visit('/centres-de-certification/liste');
 
       // then
-      assert.equal(currentURL(), '/centres-de-certification/list');
+      assert.equal(currentURL(), '/centres-de-certification/liste');
     });
 
     test('it should list the certification-centers', async function(assert) {
@@ -40,7 +40,7 @@ module('Acceptance | Certification-centers List', function(hooks) {
       server.createList('certification-center', 12);
 
       // when
-      await visit('/centres-de-certification/list');
+      await visit('/centres-de-certification/liste');
 
       // then
       assert.dom('.table-admin tbody tr').exists({ count: 12 });
@@ -53,7 +53,7 @@ module('Acceptance | Certification-centers List', function(hooks) {
       server.createList('certification-center', 3, { type: 'SUP' });
 
       // when
-      await visit('/centres-de-certification/list?type=sup');
+      await visit('/centres-de-certification/liste?type=sup');
 
       // then
       assert.dom('#type').hasValue('sup');
@@ -62,7 +62,7 @@ module('Acceptance | Certification-centers List', function(hooks) {
     test('should go to certification center page when line is clicked', async function(assert) {
       // given
       server.createList('certification-center', 1);
-      await visit('/centres-de-certification/list');
+      await visit('/centres-de-certification/liste');
 
       // when
       await click('tr[aria-label="Centre de certification"]:first-child');

@@ -22,7 +22,7 @@ module('Acceptance | Session page', function(hooks) {
       await visitSessionsPage();
 
       // then
-      assert.equal(currentURL(), '/sessions/list');
+      assert.equal(currentURL(), '/sessions/liste');
     });
   });
 

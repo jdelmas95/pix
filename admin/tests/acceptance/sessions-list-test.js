@@ -13,7 +13,7 @@ module('Acceptance | Session List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/sessions/list');
+      await visit('/sessions/liste');
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -28,10 +28,10 @@ module('Acceptance | Session List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/sessions/list');
+      await visit('/sessions/liste');
 
       // then
-      assert.equal(currentURL(), '/sessions/list');
+      assert.equal(currentURL(), '/sessions/liste');
     });
 
     module('#Pagination', function(hooks) {
@@ -45,7 +45,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display the first page of finalized sessions', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
 
           // then
           assert.dom('select#pageSize').hasValue('10');
@@ -58,7 +58,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display the second page of finalized sessions', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await click('[aria-label="Aller à la page suivante"]');
 
           // then
@@ -72,7 +72,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display all the finalized sessions', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await fillIn('select#pageSize', '25');
 
           // then
@@ -86,7 +86,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display an empty list', async function(assert) {
           // given
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
 
           // when
           await fillIn('#id', 'azere');
@@ -109,7 +109,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display the session with the ID specified in the input field', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await fillIn('#id', expectedSession.id);
 
           // then
@@ -127,7 +127,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display the session with a certification center name alike the one specified in the field', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await fillIn('#certificationCenterName', expectedSession.certificationCenterName.toUpperCase());
 
           // then
@@ -144,7 +144,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display the session with status as specified in the dropdown', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await fillIn('select#status', 'processed');
 
           // then
@@ -161,7 +161,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should display sessions regardless the results have been sent or not', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
 
           // then
           assert.dom('.table-admin tbody tr').exists({ count: 8 });
@@ -169,7 +169,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should only display sessions which results have been sent', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await fillIn('select#resultsSentToPrescriberAt', 'true');
 
           // then
@@ -178,7 +178,7 @@ module('Acceptance | Session List', function(hooks) {
 
         test('it should only display sessions which results have not been sent', async function(assert) {
           // when
-          await visit('/sessions/list');
+          await visit('/sessions/liste');
           await fillIn('select#resultsSentToPrescriberAt', 'false');
 
           // then

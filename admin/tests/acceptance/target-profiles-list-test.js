@@ -14,7 +14,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
     test('it should not be accessible by an unauthenticated user', async function(assert) {
       // when
-      await visit('/profils-cibles/list');
+      await visit('/profils-cibles/liste');
 
       // then
       assert.equal(currentURL(), '/connexion');
@@ -29,10 +29,10 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
     test('it should be accessible for an authenticated user', async function(assert) {
       // when
-      await visit('/profils-cibles/list');
+      await visit('/profils-cibles/liste');
 
       // then
-      assert.equal(currentURL(), '/profils-cibles/list');
+      assert.equal(currentURL(), '/profils-cibles/liste');
     });
 
     test('it should list target profiles', async function(assert) {
@@ -40,7 +40,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
       server.createList('target-profile', 12);
 
       // when
-      await visit('/profils-cibles/list');
+      await visit('/profils-cibles/liste');
 
       // then
       assert.dom('[aria-label="Profil cible"]').exists({ count: 12 });
@@ -54,7 +54,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
       test('it should display the current filter when target profiles are filtered by name', async function(assert) {
         // when
-        await visit('/profils-cibles/list?name=sav');
+        await visit('/profils-cibles/liste?name=sav');
 
         // then
         assert.dom('input#name').hasValue('sav');
@@ -62,7 +62,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
       test('it should display the current filter when target profiles are filtered by id', async function(assert) {
         // when
-        await visit('/profils-cibles/list?id=123');
+        await visit('/profils-cibles/liste?id=123');
 
         // then
         assert.dom('input#id').hasValue('123');
@@ -72,7 +72,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
     test('it should redirect to target profile details on click', async function(assert) {
       // given
       server.create('target-profile', { id: 1 });
-      await visit('/profils-cibles/list');
+      await visit('/profils-cibles/liste');
 
       // when
       await click('[aria-label="Profil cible"]');

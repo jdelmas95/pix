@@ -21,7 +21,7 @@ Router.map(function() {
     this.route('index', { path: '/' });
     this.route('organizations', { path: '/organisations' }, function() {
       this.route('index', { path: '/' });
-      this.route('list');
+      this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('get', { path: '/:organization_id' }, function() {
         this.route('index', { path: '/' });
@@ -32,20 +32,20 @@ Router.map(function() {
 
     this.route('users', { path: '/utilisateurs' }, function() {
       this.route('index', { path: '/' });
-      this.route('list');
+      this.route('list', { path: '/liste' });
       this.route('get', { path: '/:user_id' });
     });
 
     this.route('certification-centers', { path: '/centres-de-certification' }, function() {
       this.route('index', { path: '/' });
-      this.route('list');
+      this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('get', { path: '/:certification_center_id' });
     });
 
     this.route('sessions', function() {
       this.route('index', { path: '/' });
-      this.route('list');
+      this.route('list', { path: '/liste' });
       this.route('session', { path: '/:session_id' }, function() {
         this.route('informations', { path: '/' });
         this.route('certifications');
@@ -60,7 +60,7 @@ Router.map(function() {
     });
 
     this.route('target-profiles', { path: '/profils-cibles' }, function() {
-      this.route('list');
+      this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
       this.route('target-profile', { path: '/:target_profile_id' }, function() {
         this.route('details', { path: '/' });

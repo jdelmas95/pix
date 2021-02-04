@@ -29,7 +29,7 @@ module('Acceptance | Certification-center Form', function(hooks) {
     await click('button[type=submit]');
 
     // then
-    assert.equal(currentURL(), '/centres-de-certification/list');
+    assert.equal(currentURL(), '/centres-de-certification/liste');
     assert.contains(name);
     assert.contains(type.value);
     assert.contains(externalId);
