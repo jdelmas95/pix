@@ -31,6 +31,7 @@ Router.map(function() {
     });
     this.route('team', { path: '/equipe' }, function() {
       this.route('list', { path: '/' }, function() {
+        this.route('index', { path: '/' });
         this.route('members', { path: '/membres' });
         this.route('invitations');
       });
@@ -41,6 +42,7 @@ Router.map(function() {
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:campaign_id/modification' });
       this.route('assessment', { path: '/:campaign_id/evaluations/:campaign_participation_id' }, function() {
+        this.route('index', { path: '/' });
         this.route('results', { path: '/resultats' });
         this.route('analysis', { path: '/analyse' });
       });
