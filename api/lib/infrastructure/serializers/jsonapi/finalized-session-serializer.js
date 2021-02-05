@@ -3,7 +3,7 @@ const { Serializer } = require('jsonapi-serializer');
 module.exports = {
 
   serialize(finalizedSessions) {
-    return new Serializer('finalized-sessions', {
+    return new Serializer('publishable-session', {
       attributes: [
         'sessionId',
         'sessionDate',
