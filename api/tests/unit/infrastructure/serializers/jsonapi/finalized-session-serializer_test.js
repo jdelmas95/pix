@@ -10,9 +10,9 @@ describe('Unit | Serializer | JSONAPI | finalized-session-serializer', function(
       // given
       const expectedJsonApi = {
         data: {
-          type: 'finalized-sessions',
+          type: 'publishable-sessions',
+          id: '123',
           attributes: {
-            'session-id': 123,
             'certification-center-name': 'A certification Center name',
             'session-date': '2017-01-20',
             'session-time': '14:30',
