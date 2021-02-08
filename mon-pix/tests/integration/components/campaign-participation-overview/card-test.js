@@ -116,4 +116,25 @@ describe('Integration | Component | CampaignParticipationOverview | Card', funct
       expect(contains('20 % de réussite'));
     });
   });
+
+  describe('when card has "archived" status', function() {
+    it('should render card info', async function() {
+      // given
+      const campaignParticipationOverview = store.createRecord('campaign-participation-overview', {
+        createdAt: '2020-01-01',
+        campaignArchivedAt: '2020-01-03',
+        assessmentState: 'completed',
+        campaignTitle: 'My campaign',
+      });
+      this.set('campaignParticipationOverview', campaignParticipationOverview);
+
+      // when
+      await render(hbs`<CampaignParticipationOverview::Card @model={{this.campaignParticipationOverview}} />}`);
+
+      // then
+      expect(find('.campaign-participation-overview-card-header__tag').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.tag.archived'));
+      expect(find('.campaign-participation-overview-card-header__date').textContent.trim()).to.equal(this.intl.t('pages.campaign-participation-overview.card.started-at', { date: '01/01/2020' }));
+      expect(contains(this.intl.t('pages.campaign-participation-overview.card.see-more'))).to.not.exist;
+    });
+  });
 });

@@ -74,5 +74,22 @@ describe('Unit | Component | CampaignParticipation | Card', function() {
         dateText: 'pages.campaign-participation-overview.card.started-at',
       });
     });
+
+    it('should return the card info when the status is "archived"', function() {
+      // given
+      component.args.model = store.createRecord('campaign-participation-overview', {
+        assessmentState: 'archived',
+      });
+
+      // when
+      const result = component.cardInfo;
+
+      // then
+      expect(result).to.deep.equal({
+        tagText: 'pages.campaign-participation-overview.card.tag.archived',
+        tagColor: 'grey-light',
+        dateText: 'pages.campaign-participation-overview.card.started-at',
+      });
+    });
   });
 });

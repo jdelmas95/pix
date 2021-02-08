@@ -18,13 +18,20 @@
         {{t 'pages.campaign-participation-overview.card.results' result=@model.masteryPercentage}}
       </p>
     {{/if}}
-    <LinkTo class="{{this.cardInfo.actionClass}} campaign-participation-overview-card-content__action"
-            @route="campaigns.start-or-resume"
-            @model={{@model.campaignCode}}>
-      {{#if (eq @model.status "finished")}}
-        <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
-      {{/if}}
-      {{t this.cardInfo.actionText}}
-    </LinkTo>
+    {{#if (eq @model.status "archived")}}
+      <p class="campaign-participation-overview-card-content__content campaign-participation-overview-card-content__archived">
+        {{t 'pages.campaign-participation-overview.card.text-archived' htmlSafe=true}}
+      </p>
+    {{/if}}
+    {{#if (not-eq @model.status "archived")}}
+      <LinkTo class="{{this.cardInfo.actionClass}} campaign-participation-overview-card-content__action"
+              @route="campaigns.start-or-resume"
+              @model={{@model.campaignCode}}>
+        {{#if (eq @model.status "finished")}}
+          <FaIcon @icon='arrow-right' aria-hidden="true"></FaIcon>
+        {{/if}}
+        {{t this.cardInfo.actionText}}
+      </LinkTo>
+    {{/if}}
   </section>
 </article>
