@@ -1,11 +1,11 @@
 {{#if this.displayFilters }}
-  <PixFilterBanner 
-    @title="Filtres"  
-    class="participant-filter-banner" 
-    aria-label="Filtres sur les participations" 
-    @details={{concat @rowCount ' participants'}} 
-    @clearFiltersLabel='Effacer les filtres' 
-    @onClearFilters={{this.onClearFilters}}
+  <PixFilterBanner
+    @title="Filtres"
+    class="participant-filter-banner"
+    aria-label="Filtres sur les participations"
+    @details={{concat @rowCount ' participants'}}
+    @clearFiltersLabel='Effacer les filtres'
+    @onClearFilters={{@resetFiltering}}
     >
     {{#if this.displayDivisionFilter }}
       <PixMultiSelect

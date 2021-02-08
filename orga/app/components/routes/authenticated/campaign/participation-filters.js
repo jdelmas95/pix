@@ -50,8 +50,4 @@ export default class ParticipationFilters extends Component {
     this.args.triggerFiltering({ divisions });
   }
 
-  @action
-  onClearFilters() {
-    console.log(this.args.rowCount);
-  }
 }
