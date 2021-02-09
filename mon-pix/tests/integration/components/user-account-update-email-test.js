@@ -120,6 +120,58 @@ describe('Integration | Component | User account update email', () => {
         sinon.assert.calledWith(saveStub, { adapterOptions: { updateEmail: true } });
         expect(this.user.email).to.equal(newEmail.toLowerCase());
       });
+
+      it('should display wrong format error if response status is 422', async function() {
+        // given
+        const newEmail = 'newEmail@example.net';
+        const saveStub = sinon.stub();
+        saveStub.rejects({ errors: [{ status: '422' }] });
+        this.user.save = saveStub;
+        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+
+        // when
+        await fillIn('#newEmail', newEmail);
+        await fillIn('#newEmailConfirmation', newEmail);
+        await click('button[data-test-submit-email]');
+
+        // then
+        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-format'));
+      });
+
+      it('should display error message from server if response status is 400 or 403', async function() {
+        // given
+        const newEmail = 'newEmail@example.net';
+        const saveStub = sinon.stub();
+        const expectedErrorMessage = 'An error message';
+        saveStub.rejects({ errors: [{ status: '400', detail: expectedErrorMessage }] });
+        this.user.save = saveStub;
+        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+
+        // when
+        await fillIn('#newEmail', newEmail);
+        await fillIn('#newEmailConfirmation', newEmail);
+        await click('button[data-test-submit-email]');
+
+        // then
+        expect(find('span[data-test-error-message]').textContent).to.equal(expectedErrorMessage);
+      });
+
+      it('should display default error message if response status is unknown', async function() {
+        // given
+        const newEmail = 'newEmail@example.net';
+        const saveStub = sinon.stub();
+        saveStub.rejects({});
+        this.user.save = saveStub;
+        await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+
+        // when
+        await fillIn('#newEmail', newEmail);
+        await fillIn('#newEmailConfirmation', newEmail);
+        await click('button[data-test-submit-email]');
+
+        // then
+        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.unknown'));
+      });
     });
   });
 });

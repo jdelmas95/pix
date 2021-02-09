@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../utils/email-validator';
+import get from 'lodash/get';
 
 const STATUS_MAP = {
   defaultStatus: 'default',
@@ -13,6 +14,7 @@ const STATUS_MAP = {
 const ERROR_INPUT_MESSAGE_MAP = {
   wrongFormat: 'pages.user-account.account-update-email.fields.errors.wrong-format',
   mismatching: 'pages.user-account.account-update-email.fields.errors.mismatching',
+  unknown: 'pages.user-account.account-update-email.fields.errors.unknown',
 };
 
 class NewEmailValidation {
@@ -30,6 +32,7 @@ export default class UserAccountUpdateEmail extends Component {
   @service intl;
   @tracked newEmail = '';
   @tracked newEmailConfirmation = '';
+  @tracked errorMessage = null;
 
   @tracked newEmailValidation = new NewEmailValidation();
   @tracked newEmailConfirmationValidation = new NewEmailConfirmationValidation();
@@ -66,14 +69,22 @@ export default class UserAccountUpdateEmail extends Component {
   @action
   async saveNewEmail(event) {
     event && event.preventDefault();
+    this.errorMessage = null;
 
     if (this.newEmail === this.newEmailConfirmation && isEmailValid(this.newEmail)) {
       this.args.user.email = this.newEmail.trim().toLowerCase();
       try {
         await this.args.user.save({ adapterOptions: { updateEmail: true } });
         this.args.disableEmailEditionMode();
-      } catch (error) {
-        return error;
+      } catch (response) {
+        const status = get(response, 'errors[0].status');
+        if (status === '422') {
+          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['wrongFormat']);
+        } else if (status === '400' || status === '403') {
+          this.errorMessage = get(response, 'errors[0].detail');
+        } else {
+          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknown']);
+        }
       }
     }
   }
