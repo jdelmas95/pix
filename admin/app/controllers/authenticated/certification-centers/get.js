@@ -1,8 +1,9 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import isEmailValid from '../../../utils/email-validator';
 import { tracked } from '@glimmer/tracking';
+
+import isEmailValid from '../../../utils/email-validator';
 
 export default class AuthenticatedCertificationCentersGetController extends Controller {
 
@@ -14,43 +15,35 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
 
   @action
   async addCertificationCenterMembership() {
-    this.isLoading = true;
-
     const { certificationCenter } = this.model;
     const email = this.userEmailToAdd.trim();
 
-    if (!this._isEmailValid(email)) {
-      this.isLoading = false;
-      return;
-    }
-
-    try {
-      await this.store.createRecord('certification-center-membership', {
-        certificationCenter,
-        user: { email },
-      }).save();
-
-      this.userEmailToAdd = null;
-      this.notifications.success('Accès attribué avec succès.');
-    } catch (e) {
-      this.notifications.error('Une erreur est survenue.');
-    } finally {
-      this.isLoading = false;
-    }
-  }
-
-  _isEmailValid(email) {
+    this.errorMessage = null;
     if (!email) {
       this.errorMessage = 'Ce champ est requis.';
-      return false;
-    }
-
-    if (!isEmailValid(email)) {
+    } else if (!isEmailValid(email)) {
       this.errorMessage = 'L\'adresse e-mail saisie n\'est pas valide.';
-      return false;
-    }
+    } else {
+      try {
+        this.isLoading = true;
+        await this.store.createRecord('certification-center-membership')
+          .save({
+            adapterOptions: {
+              certificationCenterId: certificationCenter.id,
+              email,
+            },
+          });
 
-    this.errorMessage = null;
-    return true;
+        await this.model.certificationCenterMemberships.reload();
+
+        this.userEmailToAdd = null;
+        this.notifications.success('Membre ajouté avec succès.');
+      } catch (e) {
+        this.notifications.error('Une erreur est survenue.');
+      } finally {
+        this.isLoading = false;
+      }
+    }
   }
+
 }

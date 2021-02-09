@@ -13,51 +13,108 @@ module.only('Unit | Controller | authenticated/certification-centers/get', funct
     controller = this.owner.lookup('controller:authenticated/certification-centers/get');
   });
 
-  module('#addCertificationCenterMembership', function() {
+  module('#addCertificationCenterMembership', function(hooks) {
 
-    test('it should create a certificationCenterMembership if the email is valid', function(assert) {
-      // given
-      const saveStub = sinon.stub();
+    let certificationCenter;
+    let certificationCenterMemberships;
+    let createRecordStub;
+    let reloadStub;
+    let saveStub;
+
+    hooks.beforeEach(function() {
+      createRecordStub = sinon.stub();
+      reloadStub = sinon.stub();
+      saveStub = sinon.stub();
+
+      reloadStub.resolves();
       saveStub.resolves();
-      const createRecordStub = sinon.stub();
       createRecordStub.returns({
         save: saveStub,
       });
-      controller.store = Service.create({ createRecord: createRecordStub });
-      const certificationCenter = { certificationCenterMemberships: { id: 1 } };
-      controller.model = { certificationCenter };
 
-      controller.userEmailToAdd = 'test@example.net';
-
-      // when
-      controller.addCertificationCenterMembership();
-
-      // then
-      assert.ok(createRecordStub.calledWith('certification-center-membership', { certificationCenter, user: { email: 'test@example.net' } }));
-      assert.equal(saveStub.callCount, 1);
-    });
-
-    test('it should display an error message if the email is empty', function(assert) {
-
-      // given
-      const saveStub = sinon.stub();
-      saveStub.resolves();
-      const createRecordStub = sinon.stub();
-      createRecordStub.returns({
-        save: saveStub,
+      controller.store = Service.create({
+        createRecord: createRecordStub,
       });
-      controller.store = Service.create({ createRecord: createRecordStub });
-      const certificationCenter = { certificationCenterMemberships: { id: 1 } };
-      controller.model = { certificationCenter };
 
-      controller.userEmailToAdd = '';
-
-      // when
-      controller.addCertificationCenterMembership();
-
-      // then
-      assert.equal(controller.errorMessage, 'Ce champ est requis.');
+      certificationCenter = { id: 1, certificationCenterMemberships: { id: 1 } };
+      certificationCenterMemberships = {
+        id: 1,
+        reload: reloadStub,
+      };
+      controller.model = {
+        certificationCenter,
+        certificationCenterMemberships,
+      };
     });
 
+    module('when email is valid', function() {
+
+      test('should create a certificationCenterMembership', function(assert) {
+        // given
+        const email = 'test@example.net';
+        controller.userEmailToAdd = email;
+        const expectedArguments = {
+          adapterOptions: {
+            certificationCenterId: 1,
+            email,
+          },
+        };
+
+        // when
+        controller.addCertificationCenterMembership();
+
+        // then
+        sinon.assert.calledWith(createRecordStub, 'certification-center-membership');
+        sinon.assert.calledWith(saveStub, expectedArguments);
+        sinon.assert.called(reloadStub);
+        assert.ok(true);
+      });
+
+      test('should not have an error message', function(assert) {
+        // given
+        controller.userEmailToAdd = 'test@example.net';
+
+        // when
+        controller.addCertificationCenterMembership();
+
+        // then
+        assert.equal(controller.errorMessage, null);
+      });
+    });
+
+    module('when email is not valid', function() {
+
+      test('should have an error message if the email is empty', function(assert) {
+        // given
+        controller.userEmailToAdd = '';
+
+        // when
+        controller.addCertificationCenterMembership();
+
+        // then
+        assert.equal(controller.errorMessage, 'Ce champ est requis.');
+      });
+
+      test('should have an error message if the email syntax is invalid', function(assert) {
+        // given
+        controller.userEmailToAdd = 'an invalid email';
+
+        // when
+        controller.addCertificationCenterMembership();
+
+        // then
+        assert.equal(controller.errorMessage, 'L\'adresse e-mail saisie n\'est pas valide.');
+      });
+
+      test('should set isLoading to false', function(assert) {
+        controller.userEmailToAdd = 'an invalid email';
+
+        // when
+        controller.addCertificationCenterMembership();
+
+        // then
+        assert.equal(controller.isLoading, false);
+      });
+    });
   });
 });
