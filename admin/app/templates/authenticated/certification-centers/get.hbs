@@ -17,6 +17,28 @@
     </div>
   </section>
 
+  <section class="page-section mb_10">
+    <header class="page-section__header">
+      <h2 class="page-section__title">Ajouter un membre</h2>
+    </header>
+
+    <div>
+      <Input
+        id="userEmailToAdd"
+        aria-label="Adresse e-mail"
+        @value={{@userEmailToAdd}}
+        class="form-field__text form-control"
+        placeholder="Adresse e-mail de l'utilisateur à ajouter"
+      />
+      <button
+        type="button"
+        {{on "click" @addCertificationCenterMembership}}
+        class="btn btn-outline-default">
+        Valider
+      </button>
+    </div>
+  </section>
+
   <CertificationCenterMembershipsSection
     @certificationCenterMemberships={{@model.certificationCenterMemberships}}
   />
