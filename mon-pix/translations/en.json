@@ -957,7 +957,8 @@
                     },
                     "errors": {
                         "wrong-format": "Your email address is invalid.",
-                        "mismatching": ""
+                        "mismatching": "",
+                        "unknown": ""
                     }
                 }
             }

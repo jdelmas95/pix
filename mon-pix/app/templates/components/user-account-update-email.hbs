@@ -26,6 +26,11 @@
                        @autocomplete="off"
                        @require={{true}}/>
         </div>
+        {{#if this.errorMessage}}
+        <div class="user-account-update-email__error">
+          <span data-test-error-message>{{this.errorMessage}}</span>
+        </div>
+        {{/if}}
         <div class="user-account-update-email__actions">
           <PixButton
                   class="user-account-update-email-actions__button"

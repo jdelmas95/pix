@@ -23,6 +23,11 @@
     display: flex;
     justify-content: space-between;
   }
+
+  &__error {
+    padding-top: 30px;
+    color: $red;
+  }
 }
 
 .user-account-update-email-actions {
