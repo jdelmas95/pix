@@ -15,6 +15,7 @@ class CampaignParticipationOverview {
     campaignCode,
     campaignTitle,
     campaignArchivedAt,
+    targetProfile,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -28,6 +29,7 @@ class CampaignParticipationOverview {
     this.campaignCode = campaignCode;
     this.campaignTitle = campaignTitle;
     this.campaignArchivedAt = campaignArchivedAt;
+    this.targetProfile = targetProfile;
   }
 
   get masteryPercentage() {
@@ -36,6 +38,15 @@ class CampaignParticipationOverview {
     if (this.totalSkillsCount === 0) return 0;
 
     return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+  }
+
+  get validatedStages() {
+    const validatedStages = this.targetProfile.stages.filter((stage) => stage.threshold <= this.validatedSkillsCount);
+    return validatedStages.length;
+  }
+
+  get totalStagesCount() {
+    return this.targetProfile.stages.length;
   }
 }
 
