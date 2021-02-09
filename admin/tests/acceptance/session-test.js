@@ -110,7 +110,8 @@ module('Acceptance | Session pages', function(hooks) {
           assert.dom('.session-info__actions div button:first-child').hasText('M\'assigner la session');
           assert.dom('.session-info__actions div button:nth-child(2)').hasText('Récupérer le fichier avant jury');
           assert.dom('.session-info__actions div button:nth-child(3)').hasText('Exporter les résultats');
-          assert.dom('.session-info__actions div button:nth-child(4)').hasText('Résultats transmis au prescripteur');
+          assert.dom('.session-info__actions .session-info__copy-button button').includesText('Copier le lien de téléchargement');
+          assert.dom('.session-info__actions div button:nth-child(5)').hasText('Résultats transmis au prescripteur');
         });
       });
     });
