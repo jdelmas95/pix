@@ -955,10 +955,15 @@
                     "new-email-confirmation": {
                         "label": ""
                     },
+                    "password": {
+                        "label": "Password"
+                    },
                     "errors": {
                         "wrong-format": "Your email address is invalid.",
                         "mismatching": "",
-                        "unknown": ""
+                        "empty": "Your password can't be empty.",
+                        "unknown": "",
+                        "invalid-password": ""
                     }
                 }
             }

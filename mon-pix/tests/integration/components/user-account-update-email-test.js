@@ -100,6 +100,30 @@ describe('Integration | Component | User account update email', () => {
           expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.mismatching'));
         });
       });
+
+      context('in password input', function() {
+
+        it.only('should display an empty password error message when focus-out', async function() {
+          // given
+          const newEmail = 'newEmail@example.net';
+          const emptyPassword = '';
+
+          const saveStub = sinon.stub();
+          saveStub.resolves();
+          this.user.save = saveStub;
+          await render(hbs`<UserAccountUpdateEmail @user={{this.user}} />`);
+
+          // when
+          await fillIn('#newEmail', newEmail);
+          await fillIn('#newEmailConfirmation', newEmail);
+          await fillIn('#password', emptyPassword);
+          await triggerEvent('#password', 'blur');
+
+          // then
+          expect(find('#validationMessage-password').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty'));
+        });
+      });
+
     });
 
     context('when the user save', function() {

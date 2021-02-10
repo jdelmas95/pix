@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../utils/email-validator';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 
 const STATUS_MAP = {
   defaultStatus: 'default',
@@ -14,7 +15,9 @@ const STATUS_MAP = {
 const ERROR_INPUT_MESSAGE_MAP = {
   wrongFormat: 'pages.user-account.account-update-email.fields.errors.wrong-format',
   mismatching: 'pages.user-account.account-update-email.fields.errors.mismatching',
+  empty: 'pages.user-account.account-update-email.fields.errors.empty',
   unknown: 'pages.user-account.account-update-email.fields.errors.unknown',
+  invalidPassword: 'pages.user-account.account-update-email.fields.errors.invalid-password',
 };
 
 class NewEmailValidation {
@@ -27,15 +30,22 @@ class NewEmailConfirmationValidation {
   @tracked message = null;
 }
 
+class PasswordValidation {
+  @tracked status = STATUS_MAP['defaultStatus'];
+  @tracked message = null;
+}
+
 export default class UserAccountUpdateEmail extends Component {
 
   @service intl;
   @tracked newEmail = '';
   @tracked newEmailConfirmation = '';
+  @tracked password = '';
   @tracked errorMessage = null;
 
   @tracked newEmailValidation = new NewEmailValidation();
   @tracked newEmailConfirmationValidation = new NewEmailConfirmationValidation();
+  @tracked passwordValidation = new PasswordValidation();
 
   @action
   validateNewEmail() {
@@ -67,12 +77,24 @@ export default class UserAccountUpdateEmail extends Component {
   }
 
   @action
+  validatePassword() {
+
+    const isInvalidInput = isEmpty(this.password);
+
+    if (isInvalidInput) {
+      this.passwordValidation.status = STATUS_MAP['errorStatus'];
+      this.passwordValidation.message = this.intl.t(ERROR_INPUT_MESSAGE_MAP['empty']);
+    }
+  }
+
+  @action
   async saveNewEmail(event) {
     event && event.preventDefault();
     this.errorMessage = null;
 
-    if (this.newEmail === this.newEmailConfirmation && isEmailValid(this.newEmail)) {
+    if (this.newEmail === this.newEmailConfirmation && isEmailValid(this.newEmail) && !isEmpty(this.password)) {
       this.args.user.email = this.newEmail.trim().toLowerCase();
+      this.args.user.password = this.password;
       try {
         await this.args.user.save({ adapterOptions: { updateEmail: true } });
         this.args.disableEmailEditionMode();
@@ -82,6 +104,8 @@ export default class UserAccountUpdateEmail extends Component {
           this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['wrongFormat']);
         } else if (status === '400' || status === '403') {
           this.errorMessage = get(response, 'errors[0].detail');
+        } else if (status === '401') {
+          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
         } else {
           this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknown']);
         }

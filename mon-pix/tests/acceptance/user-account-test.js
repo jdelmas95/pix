@@ -39,6 +39,7 @@ describe('Acceptance | User account page', function() {
     it('should edit e-mail', async function() {
       // given
       const newEmail = 'new-email@example.net';
+      const password = user.password;
       await authenticateByEmail(user);
       await visit('/mon-compte');
 
@@ -46,6 +47,7 @@ describe('Acceptance | User account page', function() {
       await click('button[data-test-edit-email]');
       await fillIn('#newEmail', newEmail);
       await fillIn('#newEmailConfirmation', newEmail);
+      await fillIn('#password', password);
       await click('button[data-test-submit-email]');
 
       // then
