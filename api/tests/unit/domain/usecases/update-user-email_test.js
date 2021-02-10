@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 const updateUserEmail = require('../../../../lib/domain/usecases/update-user-email');
 const { AlreadyRegisteredEmailError, UserNotAuthorizedToUpdateEmailError } = require('../../../../lib/domain/errors');
 
@@ -8,11 +10,16 @@ describe('Unit | UseCase | update-user-email', () => {
   let userRepository;
   let schoolingRegistrationRepository;
 
+  const password = 'password123';
+  // eslint-disable-next-line no-sync
+  const passwordHash = bcrypt.hashSync(password, 1);
+
   beforeEach(() => {
     userRepository = {
       updateEmail: sinon.stub(),
       isEmailAvailable: sinon.stub(),
       get: sinon.stub().resolves({ email: 'old_email@example.net' }),
+      getByUsernameOrEmailWithRolesAndPassword: sinon.stub().resolves({ authenticationMethods: [ { authenticationComplement: { password: passwordHash } }] }),
     };
 
     schoolingRegistrationRepository = {
@@ -31,6 +38,7 @@ describe('Unit | UseCase | update-user-email', () => {
       userId,
       authenticatedUserId,
       email: newEmail,
+      password,
       userRepository,
       schoolingRegistrationRepository,
     });
@@ -54,6 +62,7 @@ describe('Unit | UseCase | update-user-email', () => {
       userId,
       authenticatedUserId,
       email: newEmail,
+      password,
       userRepository,
       schoolingRegistrationRepository,
     });
@@ -77,6 +86,7 @@ describe('Unit | UseCase | update-user-email', () => {
       userId,
       authenticatedUserId,
       email: newEmail,
+      password,
       userRepository,
       schoolingRegistrationRepository,
     });
