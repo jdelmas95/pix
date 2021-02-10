@@ -1,7 +1,7 @@
-  <button type="button" class="icon-button" {{on 'click' @toggleParent}} aria-expanded="{{@isOpen}}">
-    {{#if @isOpen}}
-      <FaIcon @icon="chevron-up" />
-    {{else}}
-      <FaIcon @icon="chevron-down" />
-    {{/if}}
-  </button>
+<PixActionButton
+  @icon="{{if @isOpen 'chevron-up' 'chevron-down'}}"
+  aria-expanded="{{@isOpen}}"
+  class="icon-button"
+  @triggerAction={{@toggleParent}}
+  @withBackground={{false}}
+/>
