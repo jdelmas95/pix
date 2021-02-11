@@ -11,12 +11,28 @@ const Answer = require('../../api/lib/domain/models/Answer');
 const AnswerStatus = require('../../api/lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../api/lib/domain/models/KnowledgeElement');
 
-function answerTheChallenge({ challenge, allAnswers }) {
-  /** Answer the challenge **/
+function answerTheChallenge({ challenge, allAnswers, allKnowledgeElements, targetSkills, userId }) {
   const newAnswer = new Answer({ challengeId: challenge.id, result: AnswerStatus.OK });
 
-  return [...allAnswers, newAnswer];
+  const _getSkillsFilteredByStatus = (knowledgeElements, targetSkills, status) => {
+    return knowledgeElements
+      .filter((knowledgeElement) => knowledgeElement.status === status)
+      .map((knowledgeElement) => knowledgeElement.skillId)
+      .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
+  }
+
+  const newKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+    answer: newAnswer,
+    challenge,
+    previouslyFailedSkills: _getSkillsFilteredByStatus(allKnowledgeElements, targetSkills, KnowledgeElement.StatusType.INVALIDATED),
+    previouslyValidatedSkills: _getSkillsFilteredByStatus(allKnowledgeElements, targetSkills, KnowledgeElement.StatusType.VALIDATED),
+    targetSkills,
+    userId,
+  });
+
+  return { answers : [...allAnswers, newAnswer], knowledgeElements: [...allKnowledgeElements, newKnowledgeElements] };
 }
+
 
 async function _getChallenge({ answerRepository, knowledgeElementRepository, assessment, locale, knowledgeElements, lastAnswer, allAnswers }) {
   const { targetSkills, challenges } = await dataFetcher.fetchForCompetenceEvaluations({

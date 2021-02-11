@@ -13,6 +13,6 @@ describe('#answerTheChallenge', () => {
     const allAnswers = answerTheChallenge({ challenge, allAnswers: previousAnswers });
 
     // then
-    expect(allAnswers).lengthOf(previousAnswers.length+1);
+    expect(allAnswers.answers).lengthOf(previousAnswers.length+1);
   });
 });
